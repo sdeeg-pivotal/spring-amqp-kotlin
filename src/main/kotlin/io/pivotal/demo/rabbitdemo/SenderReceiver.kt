@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.scheduling.annotation.EnableScheduling
 
-class Tut1Sender(val template: RabbitTemplate, val queue: Queue) {
+class Sender(val template: RabbitTemplate, val queue: Queue) {
 
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
     fun send() {
@@ -21,7 +21,7 @@ class Tut1Sender(val template: RabbitTemplate, val queue: Queue) {
 }
 
 @RabbitListener(queues = arrayOf("hello"))
-class Tut1Receiver {
+class Receiver {
 
     @RabbitHandler
     fun receive(messageIn: String) {
@@ -32,15 +32,15 @@ class Tut1Receiver {
 @Profile("!usage_message")
 @Configuration
 @EnableScheduling
-class tutorialConfiguration {
+class TutorialConfiguration {
     @Bean
     fun hello() = Queue("hello")
 
     @Profile("receiver")
     @Bean
-    fun reciever() = Tut1Receiver()
+    fun reciever() = Receiver()
 
     @Profile("sender")
     @Bean
-    fun sender(template: RabbitTemplate, queue: Queue) = Tut1Sender(template, queue)
+    fun sender(template: RabbitTemplate, queue: Queue) = Sender(template, queue)
 }
