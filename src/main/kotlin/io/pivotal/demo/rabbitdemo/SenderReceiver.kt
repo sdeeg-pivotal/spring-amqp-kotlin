@@ -24,9 +24,7 @@ class Sender(val template: RabbitTemplate, val queue: Queue) {
 class Receiver {
 
     @RabbitHandler
-    fun receive(messageIn: String) {
-        println("[x] Received '$messageIn'")
-    }
+    fun receive(messageIn: String)  = println("[x] Received '$messageIn'")
 }
 
 @Profile("!usage_message")
