@@ -9,14 +9,14 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Profile
 
 @SpringBootApplication
-class RabbitDemoApplication {
-
+class RabbitDemoApplication
+{
     //If the default profile is set, print the usage message and exit
     @Profile("usage_message")
     @Bean
     fun printUsage() = CommandLineRunner {
         println("This app uses Spring Profiles to control its behavior.");
-        println("Sample usage:\n\n$ java -jar spring-amqp-kotlin.jar --spring.profiles.active=sender\n");
+        println("Sample usage:\n\njava -jar spring-amqp-kotlin.jar --spring.profiles.active=sender\n");
     }
 
     //If the default profile is not set, create the TutorialRunner to
@@ -27,9 +27,10 @@ class RabbitDemoApplication {
 }
 
 //Class to run the app for a duration and then shutdown
-class TutorialRunner(val ctx: ConfigurableApplicationContext): CommandLineRunner {
+class TutorialRunner(val ctx: ConfigurableApplicationContext): CommandLineRunner
+{
     override fun run(vararg p0: String?) {
-        println("Ready ... running for " + duration + "ms");
+        println("Ready ... running for ${duration}ms");
         Thread.sleep(duration);
         ctx.close();
     }
