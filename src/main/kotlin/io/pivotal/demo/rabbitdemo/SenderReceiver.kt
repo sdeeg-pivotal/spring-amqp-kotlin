@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.scheduling.annotation.EnableScheduling
 
-class Sender(val template: RabbitTemplate, val queue: Queue) {
-
+class Sender(val template: RabbitTemplate, val queue: Queue)
+{
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
     fun send() {
         val message = "Hello World!"
@@ -21,16 +21,18 @@ class Sender(val template: RabbitTemplate, val queue: Queue) {
 }
 
 @RabbitListener(queues = arrayOf("hello"))
-class Receiver {
-
+class Receiver
+{
     @RabbitHandler
-    fun receive(messageIn: String)  = println("[x] Received '$messageIn'")
+    fun receive(messageIn: String) = println("[x] Received '$messageIn'")
 }
 
+//Create the necessary Beans based on the profile and turn on the scheduler
 @Profile("!usage_message")
 @Configuration
 @EnableScheduling
-class TutorialConfiguration {
+class TutorialConfiguration
+{
     @Bean
     fun hello() = Queue("hello")
 
