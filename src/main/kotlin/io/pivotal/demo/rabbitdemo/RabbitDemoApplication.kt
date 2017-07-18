@@ -1,8 +1,6 @@
 package io.pivotal.demo.rabbitdemo
 
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.ApplicationArguments
-import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -17,8 +15,8 @@ class RabbitDemoApplication {
     @Profile("usage_message")
     @Bean
     fun printUsage() = CommandLineRunner {
-        println("This app uses Spring Profiles to control its behavior.\n");
-        println("Sample usage: java -jar rabbit-demo.jar --spring.profiles.active=sender");
+        println("This app uses Spring Profiles to control its behavior.");
+        println("Sample usage:\n\n$ java -jar spring-amqp-kotlin.jar --spring.profiles.active=sender\n");
     }
 
     //If the default profile is not set, create the TutorialRunner to
@@ -29,16 +27,15 @@ class RabbitDemoApplication {
 }
 
 //Class to run the app for a duration and then shutdown
-class TutorialRunner(val ctx: ConfigurableApplicationContext): ApplicationRunner {
-
-    @Value("\${client.duration:0}")
-    val duration: Long = 10000
-
-    override fun run(p0: ApplicationArguments?) {
+class TutorialRunner(val ctx: ConfigurableApplicationContext): CommandLineRunner {
+    override fun run(vararg p0: String?) {
         println("Ready ... running for " + duration + "ms");
         Thread.sleep(duration);
         ctx.close();
     }
+
+    @Value("\${client.duration:0}")
+    val duration: Long = 10000
 }
 
 fun main(args: Array<String>) {
